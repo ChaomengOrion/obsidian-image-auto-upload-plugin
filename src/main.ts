@@ -276,7 +276,7 @@ export default class imageAutoUploadPlugin extends Plugin {
       const uploadImage = uploadUrlList.shift();
 
       let name = this.handleName(item.name);
-      content = content.replaceAll(item.source, `![${name}](${uploadImage})`);
+      content = content.replaceAll(item.source, this.settings.useMarkdownFormat ? `![${name}](${uploadImage})` : uploadImage);
     });
 
     this.helper.setValue(content);
@@ -533,7 +533,7 @@ export default class imageAutoUploadPlugin extends Plugin {
     let progressText = imageAutoUploadPlugin.progressTextFor(pasteId);
     name = this.handleName(name);
 
-    let markDownImage = `![${name}](${imageUrl})`;
+    let markDownImage = this.settings.useMarkdownFormat ? `![${name}](${imageUrl})` : imageUrl;
 
     imageAutoUploadPlugin.replaceFirstOccurrence(
       editor,

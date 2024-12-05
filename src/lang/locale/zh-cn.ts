@@ -48,4 +48,6 @@ export default {
   "Warning: upload files is different of reciver files from api":
     "警告：上传的文件与接口返回的文件数量不一致",
   upload: "上传",
+  "Use markdown format image": "启用markdown格式图片链接",
+  "Enable markdown format image like ![](url) or just url": "启用markdown格式的图片链接，如![](url)，否则直接输出url原始内容"
 };

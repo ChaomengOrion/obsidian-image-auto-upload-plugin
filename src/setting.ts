@@ -15,6 +15,7 @@ export interface PluginSettings {
   deleteSource: boolean;
   imageDesc: "origin" | "none" | "removeDefault";
   remoteServerMode: boolean;
+  useMarkdownFormat: boolean;
   [propName: string]: any;
 }
 
@@ -31,6 +32,7 @@ export const DEFAULT_SETTINGS: PluginSettings = {
   deleteSource: false,
   imageDesc: "origin",
   remoteServerMode: false,
+  useMarkdownFormat: true
 };
 
 export class SettingTab extends PluginSettingTab {
@@ -223,6 +225,19 @@ export class SettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.deleteSource)
           .onChange(async value => {
             this.plugin.settings.deleteSource = value;
+            this.display();
+            await this.plugin.saveSettings();
+          })
+      );
+
+      new Setting(containerEl)
+      .setName(t("Use markdown format image"))
+      .setDesc(t("Enable markdown format image like ![](url) or just url"))
+      .addToggle(toggle =>
+        toggle
+          .setValue(this.plugin.settings.useMarkdownFormat)
+          .onChange(async value => {
+            this.plugin.settings.useMarkdownFormat = value;
             this.display();
             await this.plugin.saveSettings();
           })

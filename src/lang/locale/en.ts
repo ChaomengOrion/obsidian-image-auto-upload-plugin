@@ -54,4 +54,6 @@ export default {
   "Warning: upload files is different of reciver files from api":
     "Warning: upload files num is different of reciver files from api",
   upload: "Upload",
+  "Use markdown format image": "Use markdown format image",
+  "Enable markdown format image like ![](url) or just url": "Enable markdown format image like ![](url) or just url"
 };
