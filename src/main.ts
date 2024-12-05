@@ -420,7 +420,7 @@ export default class imageAutoUploadPlugin extends Plugin {
                   this.handleFailedUpload(editor, pasteId, res.msg);
                   return;
                 }
-                return res.result;
+                return res.result[0];
               },
               evt.clipboardData
             ).catch();
