@@ -1,6 +1,7 @@
 import { App, PluginSettingTab, Setting, Notice, Platform } from "obsidian";
 import imageAutoUploadPlugin from "./main";
 import { t } from "./lang/helpers";
+import { ICustomImgLinkSettings, CustomImgLinkFormat } from "./customFormat"
 
 export interface PluginSettings {
   uploadByClipSwitch: boolean;
@@ -15,7 +16,7 @@ export interface PluginSettings {
   deleteSource: boolean;
   imageDesc: "origin" | "none" | "removeDefault";
   remoteServerMode: boolean;
-  useMarkdownFormat: boolean;
+  customImgLink: ICustomImgLinkSettings;
   [propName: string]: any;
 }
 
@@ -32,7 +33,12 @@ export const DEFAULT_SETTINGS: PluginSettings = {
   deleteSource: false,
   imageDesc: "origin",
   remoteServerMode: false,
-  useMarkdownFormat: true
+  customImgLink: {
+    customImgLinkFormat: CustomImgLinkFormat.markdown,
+    fallbackLinkFormat: CustomImgLinkFormat.markdown,
+    asyncLoad: false,
+    lazyLoad: false
+  }
 };
 
 export class SettingTab extends PluginSettingTab {
@@ -231,16 +237,62 @@ export class SettingTab extends PluginSettingTab {
       );
 
       new Setting(containerEl)
-      .setName(t("Use markdown format image"))
-      .setDesc(t("Enable markdown format image like ![](url) or just url"))
-      .addToggle(toggle =>
-        toggle
-          .setValue(this.plugin.settings.useMarkdownFormat)
+      .setName(t("The format of image link"))
+      .setDesc(t("markdown(default) - ![name](url) | html - <picture>...</picture> | raw link - url"))
+      .addDropdown(cb =>
+        cb
+          .addOption("markdown", "markdown")
+          .addOption("html", "html")
+          .addOption("raw", t("raw link"))
+          .setValue(this.plugin.settings.customImgLink.customImgLinkFormat)
           .onChange(async value => {
-            this.plugin.settings.useMarkdownFormat = value;
+            this.plugin.settings.customImgLink.customImgLinkFormat = value as CustomImgLinkFormat;
             this.display();
             await this.plugin.saveSettings();
           })
       );
+
+      if (this.plugin.settings.customImgLink.customImgLinkFormat == CustomImgLinkFormat.html) {
+        new Setting(containerEl)
+        .setName(t("The fallback format of image link"))
+        .setDesc(t("The fallback format while image has no packinfo"))
+        .addDropdown(cb =>
+          cb
+            .addOption("markdown", "markdown")
+            .addOption("raw", t("raw link"))
+            .setValue(this.plugin.settings.customImgLink.fallbackLinkFormat)
+            .onChange(async value => {
+              this.plugin.settings.customImgLink.fallbackLinkFormat = value as CustomImgLinkFormat;
+              this.display();
+              await this.plugin.saveSettings();
+            })
+        );
+
+        new Setting(containerEl)
+        .setName(t("Enable async load tag"))
+        .setDesc(t("Add decoding=\"async\" to the <img> tag"))
+        .addToggle(toggle =>
+          toggle
+            .setValue(this.plugin.settings.customImgLink.asyncLoad)
+            .onChange(async value => {
+              this.plugin.settings.customImgLink.asyncLoad = value;
+              this.display();
+              await this.plugin.saveSettings();
+            })
+        );
+
+        new Setting(containerEl)
+        .setName(t("Enable lazy load tag"))
+        .setDesc(t("Add loading=\"lazy\" to the <img> tag"))
+        .addToggle(toggle =>
+          toggle
+            .setValue(this.plugin.settings.customImgLink.lazyLoad)
+            .onChange(async value => {
+              this.plugin.settings.customImgLink.lazyLoad = value;
+              this.display();
+              await this.plugin.saveSettings();
+            })
+        );
+      }
   }
 }

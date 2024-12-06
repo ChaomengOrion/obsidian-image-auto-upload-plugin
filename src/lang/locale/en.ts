@@ -54,6 +54,14 @@ export default {
   "Warning: upload files is different of reciver files from api":
     "Warning: upload files num is different of reciver files from api",
   upload: "Upload",
-  "Use markdown format image": "Use markdown format image",
-  "Enable markdown format image like ![](url) or just url": "Enable markdown format image like ![](url) or just url"
+  //* Custom
+  "raw link": "raw link",
+  "The format of image link": "插入图片的链接格式",
+  "markdown(default) - ![name](url) | html - <picture>...</picture> | raw link - url": "markdown(default) - ![name](url) | html - <picture>...</picture> | raw link - url",
+  "The fallback format of image link": "The fallback format of image link",
+  "The fallback format while image has no packinfo": "The fallback format while image has no packinfo",
+  "Enable async load tag": "Enable async load tag",
+  "Add decoding=\"async\" to the <img> tag": "Add decoding=\"async\" to the <img> tag",
+  "Enable lazy load tag": "Enable lazy load tag",
+  "Add loading=\"lazy\" to the <img> tag": "Add loading=\"lazy\" to the <img> tag"
 };

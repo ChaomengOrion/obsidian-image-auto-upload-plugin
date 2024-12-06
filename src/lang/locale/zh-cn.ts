@@ -48,6 +48,14 @@ export default {
   "Warning: upload files is different of reciver files from api":
     "警告：上传的文件与接口返回的文件数量不一致",
   upload: "上传",
-  "Use markdown format image": "启用markdown格式图片链接",
-  "Enable markdown format image like ![](url) or just url": "启用markdown格式的图片链接，如![](url)，否则直接输出url原始内容"
+  //* Custom
+  "raw link": "原始url链接",
+  "The format of image link": "插入图片的链接格式",
+  "markdown(default) - ![name](url) | html - <picture>...</picture> | raw link - url": "markdown(默认) - ![name](url) | html - <picture>...</picture> | 原始url链接 - url",
+  "The fallback format of image link": "备用链接格式",
+  "The fallback format while image has no packinfo": "当图像不包括packinfo时候使用的链接格式",
+  "Enable async load tag": "启用async加载标签",
+  "Add decoding=\"async\" to the <img> tag": "在输出html的<img>标签中添加decoding=\"async\"异步加载属性",
+  "Enable lazy load tag": "启用lazy加载标签",
+  "Add loading=\"lazy\" to the <img> tag": "在输出html的<img>标签中添加loading=\"lazy\"懒加载属性"
 };

@@ -22,6 +22,8 @@ import { SettingTab, PluginSettings, DEFAULT_SETTINGS } from "./setting";
 
 import type { Image } from "./types";
 
+import { getCustomImgLink } from "./customFormat";
+
 export default class imageAutoUploadPlugin extends Plugin {
   settings: PluginSettings;
   helper: Helper;
@@ -276,7 +278,7 @@ export default class imageAutoUploadPlugin extends Plugin {
       const uploadImage = uploadUrlList.shift();
 
       let name = this.handleName(item.name);
-      content = content.replaceAll(item.source, this.settings.useMarkdownFormat ? `![${name}](${uploadImage})` : uploadImage);
+      content = content.replaceAll(item.source, getCustomImgLink(name, uploadImage, this.settings));
     });
 
     this.helper.setValue(content);
@@ -531,7 +533,7 @@ export default class imageAutoUploadPlugin extends Plugin {
     let progressText = imageAutoUploadPlugin.progressTextFor(pasteId);
     name = this.handleName(name);
 
-    let markDownImage = this.settings.useMarkdownFormat ? `![${name}](${imageUrl})` : imageUrl;
+    let markDownImage = getCustomImgLink(name, imageUrl, this.settings);
 
     imageAutoUploadPlugin.replaceFirstOccurrence(
       editor,
